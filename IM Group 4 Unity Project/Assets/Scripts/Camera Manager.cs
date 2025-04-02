@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    public bool camIsOrthographic;
+    //public bool camIsOrthographic;
+
+    [SerializeField] private Camera cam3D;
+    [SerializeField] private Camera cam2D;
+
+    public bool is3D;
 
     // Start is called before the first frame update
     void Start()
     {
-        camIsOrthographic = true;    
+        //camIsOrthographic = true;
+
+        cam3D.enabled = false;
+        cam2D.enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        /**
         if (camIsOrthographic) {
             Camera.main.orthographic = true;
         }
@@ -22,13 +31,23 @@ public class CameraManager : MonoBehaviour
             Camera.main.orthographic = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && camIsOrthographic)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            camIsOrthographic = false;
+            camIsOrthographic = !camIsOrthographic;
         }
-        else if (Input.GetKeyDown(KeyCode.E) && !camIsOrthographic)
+        */
+
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            camIsOrthographic = true;
+            cam3D.enabled = !cam3D.enabled;
+            cam2D.enabled = !cam2D.enabled;
+        }
+
+        if (cam3D.enabled) {
+            is3D = true;
+        }
+        else {
+            is3D = false;
         }
     }
 }
