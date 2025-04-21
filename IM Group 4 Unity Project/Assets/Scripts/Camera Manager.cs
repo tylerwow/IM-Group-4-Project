@@ -6,16 +6,15 @@ public class CameraManager : MonoBehaviour
 {
     //public bool camIsOrthographic;
 
-    [SerializeField] private Camera cam3D;
-    [SerializeField] private Camera cam2D;
+    public GameObject player;
+    public Camera cam3D;
+    public Camera cam2D;
 
     public bool is3D;
 
     // Start is called before the first frame update
     void Start()
     {
-        //camIsOrthographic = true;
-
         cam3D.enabled = false;
         cam2D.enabled = true;
     }
@@ -23,20 +22,6 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /**
-        if (camIsOrthographic) {
-            Camera.main.orthographic = true;
-        }
-        else {
-            Camera.main.orthographic = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            camIsOrthographic = !camIsOrthographic;
-        }
-        */
-
         if (Input.GetKeyDown(KeyCode.E))
         {
             cam3D.enabled = !cam3D.enabled;
@@ -49,5 +34,7 @@ public class CameraManager : MonoBehaviour
         else {
             is3D = false;
         }
+
+        cam2D.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z - 500.0f);
     }
 }
