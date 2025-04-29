@@ -8,7 +8,8 @@ public class MovementScript : MonoBehaviour
     Rigidbody rb;
     Collider c;
     public CameraManager cameraManager;
-    public float speedFloat;
+    public float speed;
+    public float jumpSpeed;
 
     public void Start()
     {
@@ -19,16 +20,16 @@ public class MovementScript : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKey(KeyCode.A))
-        {
-            t.Translate(new Vector3(-speedFloat, 0.0f, 0.0f) * speedFloat * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {   
-            t.Translate(new Vector3(speedFloat, 0.0f, 0.0f) * speedFloat * Time.deltaTime);
-        }
-
         if (!cameraManager.is3D) {
+            if (Input.GetKey(KeyCode.A))
+            {
+                t.Translate(new Vector3(-speed, 0.0f, 0.0f) * speed * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.D))
+            {   
+                t.Translate(new Vector3(speed, 0.0f, 0.0f) * speed * Time.deltaTime);
+            }
+
             t.localScale = new Vector3(1.0f, 1.0f, 100.0f);
         }
 
@@ -37,11 +38,19 @@ public class MovementScript : MonoBehaviour
 
             if (Input.GetKey(KeyCode.W))
             {
-                t.Translate(new Vector3(0.0f, 0.0f, speedFloat) * speedFloat * Time.deltaTime);
+                t.Translate(new Vector3(speed, 0.0f, 0.0f) * speed * Time.deltaTime);
             }
             if (Input.GetKey(KeyCode.S))
             {   
-                t.Translate(new Vector3(0.0f, 0.0f, -speedFloat) * speedFloat * Time.deltaTime);
+                t.Translate(new Vector3(-speed, 0.0f, 0.0f) * speed * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                t.Translate(new Vector3(0.0f, 0.0f, speed) * speed * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.D))
+            {   
+                t.Translate(new Vector3(0.0f, 0.0f, -speed) * speed * Time.deltaTime);
             }
         }
     }
@@ -49,7 +58,7 @@ public class MovementScript : MonoBehaviour
     public void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.Space) && isGrounded()) {
-            rb.AddForce(new Vector3(0.0f, 10.0f, 0.0f), ForceMode.Impulse);
+            rb.AddForce(new Vector3(0.0f, jumpSpeed, 0.0f), ForceMode.Impulse);
         }
     }
 

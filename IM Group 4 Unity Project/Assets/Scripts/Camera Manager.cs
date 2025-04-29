@@ -37,4 +37,25 @@ public class CameraManager : MonoBehaviour
 
         cam2D.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z - 500.0f);
     }
+
+    /**
+    public GameObject virtualCam3D;
+    public bool is3D;
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            is3D = !is3D;
+        }
+
+        if (is3D)
+        {
+            virtualCam3D.SetActive(true);
+        }
+        else {
+            virtualCam3D.SetActive(false);
+        }
+    }
+    */
 }
