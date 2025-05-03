@@ -7,6 +7,7 @@ public class RoomSwitch : MonoBehaviour
 {
     //https://www.youtube.com/watch?v=yaQlRvHgIvE&t=37s
 
+    public PlayerManager playerManager;
     public GameObject virtualCam;
 
     void OnTriggerEnter2D(Collider2D other)
@@ -15,7 +16,7 @@ public class RoomSwitch : MonoBehaviour
             virtualCam.SetActive(true);
         }
 
-        Console.WriteLine("Enter");
+        playerManager.UpdateRoomsList(gameObject.name);
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -23,7 +24,5 @@ public class RoomSwitch : MonoBehaviour
         if(other.CompareTag("Player")) {
             virtualCam.SetActive(false);
         }
-
-        Console.WriteLine("Exit");
     }
 }
