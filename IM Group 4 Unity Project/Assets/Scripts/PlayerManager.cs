@@ -28,6 +28,11 @@ public class PlayerManager : MonoBehaviour
     public void Update()
     {
         roomCount = roomList.Count;
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            RespawnPlayer();
+        }
     }
 
     public void FixedUpdate()
@@ -77,7 +82,8 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    bool isGrounded() {
+    bool isGrounded()
+    {
         return rb.velocity.y == 0;
     }
 
@@ -86,5 +92,13 @@ public class PlayerManager : MonoBehaviour
         if (!roomList.Contains(roomName)) {
             roomList.Add(roomName);
         }
+    }
+
+    public void RespawnPlayer()
+    {
+        string lastRoomName = roomList[roomList.Count - 1];
+        GameObject respawnPos = GameObject.Find(lastRoomName + "/Respawn Position");
+        
+        t.position = respawnPos.transform.position;
     }
 }
