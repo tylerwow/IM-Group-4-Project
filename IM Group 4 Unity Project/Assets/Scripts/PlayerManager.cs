@@ -94,10 +94,13 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public string lastRoomName() {
+        return roomList[roomList.Count - 1];
+    }
+
     public void RespawnPlayer()
     {
-        string lastRoomName = roomList[roomList.Count - 1];
-        GameObject respawnPos = GameObject.Find(lastRoomName + "/Respawn Position");
+        GameObject respawnPos = GameObject.Find(lastRoomName() + "/Respawn Position");
         
         t.position = respawnPos.transform.position;
     }
