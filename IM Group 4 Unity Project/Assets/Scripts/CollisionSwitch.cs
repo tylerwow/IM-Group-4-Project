@@ -8,6 +8,8 @@ public class CollisionSwitch : MonoBehaviour
 
     public CameraManager cameraManager;
 
+    public bool is2dOnly = false;
+
     void Start()
     {
         bc = GetComponent<BoxCollider>();           
@@ -15,11 +17,19 @@ public class CollisionSwitch : MonoBehaviour
 
     void Update()
     {
-        if (cameraManager.is3D)
+        if (is2dOnly && !cameraManager.is3D)
+        {
+            bc.enabled = true;
+        }
+        else if (is2dOnly && cameraManager.is3D)
+        {
+            bc.enabled = false;
+        }
+        else if (!is2dOnly && cameraManager.is3D)
         {
             bc.enabled = true;
         }       
-        else
+        else if (!is2dOnly && !cameraManager.is3D)
         {
             bc.enabled = false;
         }
