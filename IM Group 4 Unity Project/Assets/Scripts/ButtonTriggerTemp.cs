@@ -5,7 +5,7 @@ using UnityEngine;
 public class ButtonTriggerTemp : MonoBehaviour
 {
     public WhiteButtonTrigger whiteButtonTrigger;
-    public GameObject door;
+    public DoorMovement doorMovement;
     public CameraManager cameraManager;
     public bool is3dOnly;
 
@@ -15,14 +15,14 @@ public class ButtonTriggerTemp : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.E))
             {
-                door.SetActive(false);
+                doorMovement.isOpen = true;
             }
         }
         else
         {
             if (Input.GetKey(KeyCode.E) && cameraManager.is3D)
             {
-                door.SetActive(false);
+                doorMovement.isOpen = true;
             }
         }
     }
@@ -31,7 +31,7 @@ public class ButtonTriggerTemp : MonoBehaviour
     {
         if (!whiteButtonTrigger.activated)
         {
-            door.SetActive(true);
+            doorMovement.isOpen = false;
         }
     }
 }
