@@ -17,12 +17,20 @@ public class PlayerManager : MonoBehaviour
     List<string> roomList = new List<string>();
     public int roomCount;
 
+    //Audio Clips
+    public AudioClip walkSound;
+    public AudioClip jumpSound;
+    public AudioSource audioSource;
+
     public void Start()
     {
         t = GetComponent<Transform>();
         rb = GetComponent<Rigidbody>();
         c = GetComponent<Collider>();
         mr = GetComponent<MeshRenderer>();
+        audioSource = GetComponent<AudioSource>();
+
+        audioSource.clip = walkSound;
     }
 
     public void Update()
@@ -37,22 +45,24 @@ public class PlayerManager : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if (!cameraManager.is3D) {
+        if (!cameraManager.is3D)
+        {
             t.localScale = new Vector3(1.0f, 1.0f, 100.0f);
 
             mr.enabled = false;
-            
+
             if (Input.GetKey(KeyCode.A))
             {
                 t.Translate(new Vector3(-speed, 0.0f, 0.0f) * speed * Time.deltaTime);
             }
             if (Input.GetKey(KeyCode.D))
-            {   
+            {
                 t.Translate(new Vector3(speed, 0.0f, 0.0f) * speed * Time.deltaTime);
             }
         }
 
-        if (cameraManager.is3D) {
+        if (cameraManager.is3D)
+        {
             t.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
             mr.enabled = true;
@@ -62,7 +72,7 @@ public class PlayerManager : MonoBehaviour
                 t.Translate(new Vector3(speed, 0.0f, 0.0f) * speed * Time.deltaTime);
             }
             if (Input.GetKey(KeyCode.S))
-            {   
+            {
                 t.Translate(new Vector3(-speed, 0.0f, 0.0f) * speed * Time.deltaTime);
             }
             if (Input.GetKey(KeyCode.A))
@@ -70,15 +80,18 @@ public class PlayerManager : MonoBehaviour
                 t.Translate(new Vector3(0.0f, 0.0f, speed) * speed * Time.deltaTime);
             }
             if (Input.GetKey(KeyCode.D))
-            {   
+            {
                 t.Translate(new Vector3(0.0f, 0.0f, -speed) * speed * Time.deltaTime);
             }
         }
 
         collider2d.transform.position = new Vector3(t.position.x, t.position.y, -10.0f);
 
-        if (Input.GetKey(KeyCode.Space) && isGrounded()) {
+        if (Input.GetKey(KeyCode.Space) && isGrounded())
+        {
             rb.AddForce(new Vector3(0.0f, jumpSpeed, 0.0f), ForceMode.Impulse);
+            audioSource.clip = jumpSound;
+            audioSource.Play();
         }
     }
 
@@ -89,7 +102,8 @@ public class PlayerManager : MonoBehaviour
 
     public void UpdateRoomsList(string roomName)
     {
-        if (!roomList.Contains(roomName)) {
+        if (!roomList.Contains(roomName))
+        {
             roomList.Add(roomName);
         }
     }
