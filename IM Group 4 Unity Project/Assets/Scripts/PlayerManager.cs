@@ -17,6 +17,9 @@ public class PlayerManager : MonoBehaviour
     List<string> roomList = new List<string>();
     public int roomCount;
 
+    Vector3 lastPos;
+    bool hasCollided;
+
     //Audio Clips
     public AudioClip walkSound;
     public AudioClip jumpSound;
@@ -45,6 +48,7 @@ public class PlayerManager : MonoBehaviour
 
     public void FixedUpdate()
     {
+        /* Old movement
         if (!cameraManager.is3D)
         {
             t.localScale = new Vector3(1.0f, 1.0f, 100.0f);
@@ -53,11 +57,13 @@ public class PlayerManager : MonoBehaviour
 
             if (Input.GetKey(KeyCode.A))
             {
-                t.Translate(new Vector3(-speed, 0.0f, 0.0f) * speed * Time.deltaTime);
+                //t.Translate(new Vector3(-speed, 0.0f, 0.0f) * speed * Time.deltaTime);
+                //rb.MovePosition(new Vector3(-speed, 0.0f, 0.0f) * speed * Time.deltaTime);
             }
             if (Input.GetKey(KeyCode.D))
             {
-                t.Translate(new Vector3(speed, 0.0f, 0.0f) * speed * Time.deltaTime);
+                //t.Translate(new Vector3(speed, 0.0f, 0.0f) * speed * Time.deltaTime);
+                //rb.MovePosition(new Vector3(speed, 0.0f, 0.0f) * speed * Time.deltaTime);
             }
         }
 
@@ -69,19 +75,54 @@ public class PlayerManager : MonoBehaviour
 
             if (Input.GetKey(KeyCode.W))
             {
-                t.Translate(new Vector3(speed, 0.0f, 0.0f) * speed * Time.deltaTime);
+                //t.Translate(new Vector3(speed, 0.0f, 0.0f) * speed * Time.deltaTime);
+                //rb.MovePosition(new Vector3(speed, 0.0f, 0.0f) * speed * Time.deltaTime);
             }
             if (Input.GetKey(KeyCode.S))
             {
-                t.Translate(new Vector3(-speed, 0.0f, 0.0f) * speed * Time.deltaTime);
+                //t.Translate(new Vector3(-speed, 0.0f, 0.0f) * speed * Time.deltaTime);
+                //rb.MovePosition(new Vector3(-speed, 0.0f, 0.0f) * speed * Time.deltaTime);
             }
             if (Input.GetKey(KeyCode.A))
             {
-                t.Translate(new Vector3(0.0f, 0.0f, speed) * speed * Time.deltaTime);
+                //t.Translate(new Vector3(0.0f, 0.0f, speed) * speed * Time.deltaTime);
+                //rb.MovePosition(new Vector3(0.0f, 0.0f, speed) * speed * Time.deltaTime);
             }
             if (Input.GetKey(KeyCode.D))
             {
-                t.Translate(new Vector3(0.0f, 0.0f, -speed) * speed * Time.deltaTime);
+                //t.Translate(new Vector3(0.0f, 0.0f, -speed) * speed * Time.deltaTime);
+                //rb.MovePosition(new Vector3(0.0f, 0.0f, -speed) * speed * Time.deltaTime);
+            }
+        }
+        */
+
+        // New movement
+        if (!cameraManager.is3D)
+        {
+            t.localScale = new Vector3(1.0f, 1.0f, 100.0f);
+
+            mr.enabled = false;
+
+            Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
+            rb.MovePosition(t.position + input * Time.fixedDeltaTime * speed);
+        }
+        if (cameraManager.is3D)
+        {
+            t.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+            mr.enabled = true;
+
+            if (!hasCollided)
+            {
+                Vector3 input = new Vector3(Input.GetAxis("Vertical"), 0, -Input.GetAxis("Horizontal"));
+                rb.MovePosition(t.position + input * Time.fixedDeltaTime * speed);
+
+            }
+            else
+            {
+                t.position = lastPos;
+                rb.MovePosition(lastPos);
+                hasCollided = false;
             }
         }
 
@@ -92,6 +133,16 @@ public class PlayerManager : MonoBehaviour
             rb.AddForce(new Vector3(0.0f, jumpSpeed, 0.0f), ForceMode.Impulse);
             audioSource.clip = jumpSound;
             audioSource.Play();
+        }
+
+        lastPos = t.position;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Wall" && cameraManager.is3D)
+        {
+            hasCollided = true;
         }
     }
 
@@ -108,14 +159,17 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public string lastRoomName() {
+    public string lastRoomName()
+    {
         return roomList[roomList.Count - 1];
     }
 
     public void RespawnPlayer()
     {
         GameObject respawnPos = GameObject.Find(lastRoomName() + "/Respawn Position");
-        
+
         t.position = respawnPos.transform.position;
     }
+    
+    
 }
