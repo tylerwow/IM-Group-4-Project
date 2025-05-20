@@ -9,14 +9,10 @@ public class CanvasManager : MonoBehaviour
     public PlayerManager playerManager;
     public Text roomText;
     public Text tutorialText;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+    public GameObject pauseMenu;
+    bool isPaused;
+
     void Update()
     {
         roomText.text = playerManager.roomCount.ToString();
@@ -37,8 +33,37 @@ public class CanvasManager : MonoBehaviour
         {
             tutorialText.text = "[E] to press button";
         }
-        else {
+        else
+        {
             tutorialText.text = "";
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isPaused = !isPaused;
+        }
+
+        if (isPaused)
+        {
+            PauseGame();
+        }
+        else
+        {
+            ResumeGame();
+        }
+    }
+
+    public void PauseGame()
+    {
+        isPaused = true;
+        pauseMenu.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void ResumeGame()
+    {
+        isPaused = false;
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1;
     }
 }
