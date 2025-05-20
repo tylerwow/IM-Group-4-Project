@@ -10,7 +10,7 @@ public class SkipVideoController : MonoBehaviour
     public VideoPlayer videoPlayer;
     public string nextSceneName = "scene1";
     public Button skipButton;
-    // Start is called before the first frame update
+
     void Start()
     {
         if (videoPlayer != null){

@@ -13,14 +13,12 @@ public class CameraManager : MonoBehaviour
 
     public bool is3D;
 
-    // Start is called before the first frame update
     void Start()
     {
         cam3D.enabled = false;
         cam2D.enabled = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.C))
