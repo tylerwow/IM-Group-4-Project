@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    //public bool camIsOrthographic;
-
     public GameObject player;
     public Camera cam3D;
     public Camera cam2D;
