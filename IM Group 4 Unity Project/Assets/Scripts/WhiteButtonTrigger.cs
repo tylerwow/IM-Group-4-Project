@@ -6,8 +6,13 @@ public class WhiteButtonTrigger : MonoBehaviour
 {
     public bool is3dOnly;
     public CameraManager cameraManager;
-
     public bool activated;
+    AudioSource audioSource;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void OnTriggerStay(Collider other)
     {
@@ -15,6 +20,7 @@ public class WhiteButtonTrigger : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.E))
             {
+                audioSource.Play();
                 activated = true;
             }
         }
@@ -22,6 +28,7 @@ public class WhiteButtonTrigger : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.E) && cameraManager.is3D)
             {
+                audioSource.Play();
                 activated = true;
             }
         }

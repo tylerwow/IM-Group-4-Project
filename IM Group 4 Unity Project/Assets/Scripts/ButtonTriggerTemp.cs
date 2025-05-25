@@ -8,6 +8,12 @@ public class ButtonTriggerTemp : MonoBehaviour
     public DoorMovement doorMovement;
     public CameraManager cameraManager;
     public bool is3dOnly;
+    AudioSource audioSource;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void OnTriggerStay(Collider other)
     {
@@ -15,6 +21,7 @@ public class ButtonTriggerTemp : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.E))
             {
+                audioSource.Play();
                 doorMovement.isOpen = true;
             }
         }
@@ -22,6 +29,7 @@ public class ButtonTriggerTemp : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.E) && cameraManager.is3D)
             {
+                audioSource.Play();
                 doorMovement.isOpen = true;
             }
         }
