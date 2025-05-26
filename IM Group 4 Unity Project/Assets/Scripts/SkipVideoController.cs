@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 public class SkipVideoController : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
-    public string nextSceneName = "scene1";
     public Button skipButton;
     public GameObject controls;
 
@@ -31,14 +30,14 @@ public class SkipVideoController : MonoBehaviour
 
     public void SkipVideo()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 
     void OnVideoEnd(VideoPlayer vp)
     {
         if (currentScene == "Intro")
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(2);
         }
         if (currentScene == "End")
         {
