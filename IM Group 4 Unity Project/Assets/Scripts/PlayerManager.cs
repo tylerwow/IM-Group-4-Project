@@ -20,6 +20,12 @@ public class PlayerManager : MonoBehaviour
     Vector3 lastPos;
     bool hasCollided;
 
+    public Animator animator;
+    public SpriteRenderer spriteRenderer;
+
+    public Animator animator3d;
+    public SpriteRenderer spriteRenderer3d;
+
     //Audio Clips
     public AudioClip walkSound;
     public AudioClip jumpSound;
@@ -30,7 +36,6 @@ public class PlayerManager : MonoBehaviour
         t = GetComponent<Transform>();
         rb = GetComponent<Rigidbody>();
         c = GetComponent<Collider>();
-        mr = GetComponent<MeshRenderer>();
         audioSource = GetComponent<AudioSource>();
 
         audioSource.clip = walkSound;
@@ -52,22 +57,53 @@ public class PlayerManager : MonoBehaviour
         {
             t.localScale = new Vector3(1.0f, 1.0f, 100.0f);
 
-            mr.enabled = false;
-
             Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
             rb.MovePosition(t.position + input * Time.fixedDeltaTime * speed);
+
+            if (Input.GetAxis("Horizontal") != 0)
+            {
+                animator.SetBool("isWalking", true);
+            }
+            else
+            {
+                animator.SetBool("isWalking", false);
+            }
+
+            if (Input.GetAxis("Horizontal") < 0)
+            {
+                spriteRenderer.flipX = true;
+            }
+            if (Input.GetAxis("Horizontal") > 0)
+            {
+                spriteRenderer.flipX = false;
+            }
         }
         if (cameraManager.is3D)
         {
             t.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-
-            mr.enabled = true;
 
             if (!hasCollided)
             {
                 Vector3 input = new Vector3(Input.GetAxis("Vertical"), 0, -Input.GetAxis("Horizontal"));
                 rb.MovePosition(t.position + input * Time.fixedDeltaTime * speed);
 
+                if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+                {
+                    animator3d.SetBool("isWalking", true);
+                }
+                else
+                {
+                    animator3d.SetBool("isWalking", false);
+                }
+
+                if (Input.GetAxis("Horizontal") < 0)
+                {
+                    spriteRenderer3d.flipX = true;
+                }
+                if (Input.GetAxis("Horizontal") > 0)
+                {
+                    spriteRenderer3d.flipX = false;
+                }
             }
             else
             {
@@ -84,6 +120,17 @@ public class PlayerManager : MonoBehaviour
             rb.AddForce(new Vector3(0.0f, jumpSpeed, 0.0f), ForceMode.Impulse);
             audioSource.clip = jumpSound;
             audioSource.Play();
+        }
+
+        if (isGrounded())
+        {
+            animator.SetBool("isJumping", false);
+            animator3d.SetBool("isJumping", false);
+        }
+        else
+        {
+            animator.SetBool("isJumping", true);
+            animator3d.SetBool("isJumping", true);
         }
 
         lastPos = t.position;
